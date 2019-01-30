@@ -1,5 +1,6 @@
 import React from "react";
-import TodoItems from "./TodoItems"
+
+import TodoItem from "./TodoItem/TodoItem"
 import "./TodoList.css";
 
 class TodoList extends React.Component {
@@ -66,6 +67,7 @@ class TodoList extends React.Component {
         return (!str || str.length === 0 || /^\s*$/.test(str))
     }
 
+
     addItem(e) {
         if (!this.isNullOrWhiteSpace(this._inputElement.value)) {
             var newItem = {
@@ -95,19 +97,30 @@ class TodoList extends React.Component {
     }
 
     render() {
+        const {
+            items
+        } = this.state;
+
         return (
             <div className="todoListMain" >
-                 <div className="header">
+                <div className="header">
                     <h1>My To Do List</h1>
-                     <form onSubmit={this.addItem}>
-                         <input ref={(a) => this._inputElement = a}
+                    <form onSubmit={this.addItem}>
+                        <input ref={(a) => this._inputElement = a}
                             placeholder="enter task">
-                         </input>
-                         <button type="submit">add</button>
+                        </input>
+                        <button type="submit">add</button>
                     </form>
                 </div>
-                <TodoItems entries={this.state.items}
-                           delete={this.deleteItem}/>
+                <ul className="theList">
+                    {items.map((item) => (
+                        <TodoItem
+                            key={item.key}
+                            item={item}
+                            delete={this.deleteItem}
+                        />
+                    ))}
+                </ul>
             </div>
         );
     }
