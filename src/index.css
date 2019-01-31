@@ -1,9 +1,10 @@
 body {
-    padding: 50px;
-    background-color:#d0a7f2;
-    font-family: sans-serif;
-  }
-  #container {
-    display: flex;
-    justify-content: center;
-  }
+	padding: 50px;
+	background-color:#d0a7f2;
+	font-family: sans-serif;
+}
+
+#container {
+	display: flex;
+	justify-content: center;
+}
