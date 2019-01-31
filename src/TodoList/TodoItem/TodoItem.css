@@ -9,7 +9,7 @@
     color: #333;
     background-color: rgba(255,255,255,.5);
     border-radius: 5px;
-    border: solid  rgba(255,255,255,0);
+    border: none;
     list-style: none;
     text-align: center;
     padding: 10px;

@@ -106,13 +106,13 @@ class TodoList extends React.Component {
         };
 
         const newItems = items.reduce((arr, item) => {
-            if (item.key === key) {
+            if (item.key === key && !this.isNullOrWhiteSpace(editedItem.text)) {
                 arr.push(editedItem);
             } else {
                 arr.push(item);
             }
             return arr;
-        }, []);
+        }, []); 
 
         this.setState(() => {
             return {

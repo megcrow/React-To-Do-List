@@ -34,6 +34,7 @@ class TodoItem extends React.Component {
                 <form onBlur={this.edit}> 
                     <input
                         className="list-item"  
+                        type="text"
                         placeholder={item.text}>
                     </input>
                 </form>
