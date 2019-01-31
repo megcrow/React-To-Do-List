@@ -3,8 +3,25 @@ import React from "react";
 import "./TodoItem.css";
 
 class TodoItem extends React.Component {
-    delete = (key) => {
-        this.props.delete(key);
+    delete = () => {
+        const {
+            item,
+            deleteItem
+        } = this.props;
+
+        deleteItem(item.key);
+    }
+
+    edit = (e) => {
+        const {
+            item,
+            editItem
+        } = this.props;
+        const {
+            value
+        } = e.target;
+
+        editItem(item.key, value);
     }
 
     render() {
@@ -14,12 +31,15 @@ class TodoItem extends React.Component {
 
         return (
             <div className="list-item-container">
-                <li className="list-item">
-                    {item.text}
-                </li>
+                <form onBlur={this.edit}> 
+                    <input
+                        className="list-item"  
+                        placeholder={item.text}>
+                    </input>
+                </form>
                 <button
                     className="delete-button" 
-                    onClick={() => this.delete(item.key)}
+                    onClick={this.delete}
                 >
                     delete
                 </button>

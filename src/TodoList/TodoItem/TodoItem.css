@@ -9,14 +9,22 @@
     color: #333;
     background-color: rgba(255,255,255,.5);
     border-radius: 5px;
+    border: solid  rgba(255,255,255,0);
     list-style: none;
     text-align: center;
     padding: 10px;
     word-wrap: break-word;
     width: 165px;
-    color: #663cc1;
     width: 169px;
     margin-right: 9px;
+    font-size: 16px;
+
+}
+
+.list-item::placeholder{
+    color:  #333;
+    opacity: 1;
+    font-size: 16px;
 }
 
 .delete-button {

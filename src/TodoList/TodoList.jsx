@@ -9,8 +9,6 @@ class TodoList extends React.Component {
         this.state = {
             items: []
         }
-        this.addItem = this.addItem.bind(this);
-        this.deleteItem = this.deleteItem.bind(this);
     }
 
     // Save todo list items to local storage so they persist when page reloads    
@@ -67,8 +65,7 @@ class TodoList extends React.Component {
         return (!str || str.length === 0 || /^\s*$/.test(str))
     }
 
-
-    addItem(e) {
+    addItem = (e) => {
         if (!this.isNullOrWhiteSpace(this._inputElement.value)) {
             var newItem = {
                 text: this._inputElement.value,
@@ -82,17 +79,45 @@ class TodoList extends React.Component {
             });
             this._inputElement.value = "";
         }
-        console.log(this.state.items);
         e.preventDefault();
     }
 
 
-    deleteItem(key) {
-        var filteredItems =this.state.items.filter(function (item) {
+    deleteItem = (key) => {
+        const {
+            items
+        } = this.state;
+
+        var filteredItems = items.filter((item) => {
             return (item.key !== key);
         });
         this.setState({
             items: filteredItems
+        });
+    }
+
+    editItem = (key, value) => {
+        const {
+            items
+        } = this.state;
+        const editedItem = {
+            text: value,
+            key: Date.now()
+        };
+
+        const newItems = items.reduce((arr, item) => {
+            if (item.key === key) {
+                arr.push(editedItem);
+            } else {
+                arr.push(item);
+            }
+            return arr;
+        }, []);
+
+        this.setState(() => {
+            return {
+                items: newItems
+            };
         });
     }
 
@@ -117,7 +142,8 @@ class TodoList extends React.Component {
                         <TodoItem
                             key={item.key}
                             item={item}
-                            delete={this.deleteItem}
+                            deleteItem={this.deleteItem}
+                            editItem={this.editItem}
                         />
                     ))}
                 </ul>
