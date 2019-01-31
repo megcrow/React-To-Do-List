@@ -11,54 +11,43 @@ class TodoList extends React.Component {
         }
     }
 
-    // Save todo list items to local storage so they persist when page reloads    
     componentDidMount() {
         this.hydrateStateWithLocalStorage();
-    
         // add event listener to save state to localStorage
         // when user leaves/refreshes the page
         window.addEventListener(
-          "beforeunload",
-          this.saveStateToLocalStorage.bind(this)
+            'beforeunload',
+            this.saveStateToLocalStorage
         );
     }
     
     componentWillUnmount() {
         window.removeEventListener(
-          "beforeunload",
-          this.saveStateToLocalStorage.bind(this)
-        );
-    
-        // saves if component has a chance to unmount
-        this.saveStateToLocalStorage();
+            'beforeunload',
+            this.saveStateToLocalStorage
+        ); 
     }
     
-    hydrateStateWithLocalStorage() {
-        // for all items in state
-        for (let key in this.state) {
-          // if the key exists in localStorage
-          if (localStorage.hasOwnProperty(key)) {
+    hydrateStateWithLocalStorage = () => {
+        // if the key exists in localStorage
+        if (localStorage.hasOwnProperty('items')) {
             // get the key's value from localStorage
-            let value = localStorage.getItem(key);
-    
+            let value = localStorage.getItem('items');
+
             // parse the localStorage string and setState
             try {
-              value = JSON.parse(value);
-              this.setState({ [key]: value });
+                console.log(value);
+                value = JSON.parse(value);
+                this.setState({ items: value });
             } catch (e) {
-              // handle empty string
-              this.setState({ [key]: value });
+                // handle empty string
+                this.setState({ items: value });
             }
-          }
         }
     }
     
-    saveStateToLocalStorage() {
-        // for every item in React state
-        for (let key in this.state) {
-          // save to localStorage
-          localStorage.setItem(key, JSON.stringify(this.state[key]));
-        }
+    saveStateToLocalStorage = () => {
+        localStorage.setItem('items', JSON.stringify(this.state.items));
     }
     
     isNullOrWhiteSpace(str) {
@@ -105,8 +94,12 @@ class TodoList extends React.Component {
             key: Date.now()
         };
 
+        if (this.isNullOrWhiteSpace(editedItem.text)) {
+            return;
+        }
+
         const newItems = items.reduce((arr, item) => {
-            if (item.key === key && !this.isNullOrWhiteSpace(editedItem.text)) {
+            if (item.key === key) {
                 arr.push(editedItem);
             } else {
                 arr.push(item);

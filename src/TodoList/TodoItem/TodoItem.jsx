@@ -32,11 +32,11 @@ class TodoItem extends React.Component {
         return (
             <div className="list-item-container">
                 <form onBlur={this.edit}> 
-                    <input
+                    <textarea
                         className="list-item"  
                         type="text"
-                        placeholder={item.text}>
-                    </input>
+                        placeholder={item.text}
+                    />
                 </form>
                 <button
                     className="delete-button" 
