@@ -1,52 +1,47 @@
-import React from "react";
+import React from 'react';
 
-import "./TodoItem.css";
+import './TodoItem.css';
 
-class TodoItem extends React.Component {
-    delete = () => {
-        const {
-            item,
-            deleteItem
-        } = this.props;
+function TodoItem(props) {
+    const {
+        item,
+        deleteItem,
+        editItem
+    } = props;
+    const {
+        key,
+        text
+    } = item;
 
-        deleteItem(item.key);
+    function _deleteItem() {
+        deleteItem(key);
     }
 
-    edit = (e) => {
-        const {
-            item,
-            editItem
-        } = this.props;
+    function _editItem(e) {
         const {
             value
         } = e.target;
 
-        editItem(item.key, value);
+        editItem(key, value);
     }
 
-    render() {
-        const {
-            item
-        } = this.props;
-
-        return (
-            <div className="list-item-container">
-                <form onBlur={this.edit}> 
-                    <textarea
-                        className="list-item"  
-                        type="text"
-                        placeholder={item.text}
-                    />
-                </form>
-                <button
-                    className="delete-button" 
-                    onClick={this.delete}
-                >
-                    delete
-                </button>
-            </div> 
-        );
-    }
+    return (
+        <div className="list-item-container">
+            <form onBlur={_editItem}> 
+                <textarea
+                    className="list-item"  
+                    type="text"
+                    placeholder={text}
+                />
+            </form>
+            <button
+                className="delete-button" 
+                onClick={_deleteItem}
+            >
+                delete
+            </button>
+        </div> 
+    );
 };
 
 export default TodoItem;

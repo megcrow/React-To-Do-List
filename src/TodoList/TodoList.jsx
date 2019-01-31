@@ -1,11 +1,12 @@
-import React from "react";
+import React from 'react';
 
-import TodoItem from "./TodoItem/TodoItem"
-import "./TodoList.css";
+import TodoItem from './TodoItem/TodoItem';
+import './TodoList.css';
 
 class TodoList extends React.Component {
     constructor(props) {
         super(props);
+
         this.state = {
             items: []
         }
@@ -32,16 +33,15 @@ class TodoList extends React.Component {
         // if the key exists in localStorage
         if (localStorage.hasOwnProperty('items')) {
             // get the key's value from localStorage
-            let value = localStorage.getItem('items');
+            let items = localStorage.getItem('items');
 
             // parse the localStorage string and setState
             try {
-                console.log(value);
-                value = JSON.parse(value);
-                this.setState({ items: value });
+                items = JSON.parse(items);
+                this.setState({ items });
             } catch (e) {
                 // handle empty string
-                this.setState({ items: value });
+                this.setState({ items });
             }
         }
     }
@@ -51,24 +51,27 @@ class TodoList extends React.Component {
     }
     
     isNullOrWhiteSpace(str) {
-        return (!str || str.length === 0 || /^\s*$/.test(str))
+        return (!str || str.length === 0 || /^\s*$/.test(str));
     }
 
     addItem = (e) => {
-        if (!this.isNullOrWhiteSpace(this._inputElement.value)) {
-            var newItem = {
-                text: this._inputElement.value,
-                key: Date.now()
-            };
-
-            this.setState((prevState) => {
-                return {
-                    items: prevState.items.concat(newItem)
-                };
-            });
-            this._inputElement.value = "";
-        }
         e.preventDefault();
+        const {
+            value: text
+        } = e.target[0];
+
+        if (this.isNullOrWhiteSpace(text)) {
+            return;
+        }
+        const newItem = {
+            text,
+            key: Date.now()
+        };
+
+        this.setState((prevState) => ({
+            items: prevState.items.concat(newItem)
+        }));
+        this._inputElement.value = "";
     }
 
 
@@ -77,26 +80,26 @@ class TodoList extends React.Component {
             items
         } = this.state;
 
-        var filteredItems = items.filter((item) => {
-            return (item.key !== key);
-        });
+        const filteredItems = items.filter((item) => item.key !== key);
+
         this.setState({
             items: filteredItems
         });
     }
 
-    editItem = (key, value) => {
+    editItem = (key, text) => {
+        if (this.isNullOrWhiteSpace(text)) {
+            return;
+        }
+
         const {
             items
         } = this.state;
+
         const editedItem = {
-            text: value,
+            text,
             key: Date.now()
         };
-
-        if (this.isNullOrWhiteSpace(editedItem.text)) {
-            return;
-        }
 
         const newItems = items.reduce((arr, item) => {
             if (item.key === key) {
@@ -107,11 +110,9 @@ class TodoList extends React.Component {
             return arr;
         }, []); 
 
-        this.setState(() => {
-            return {
-                items: newItems
-            };
-        });
+        this.setState(() => ({
+            items: newItems
+        }));
     }
 
     render() {
@@ -124,9 +125,10 @@ class TodoList extends React.Component {
                 <div className="header">
                     <h1>My To Do List</h1>
                     <form onSubmit={this.addItem}>
-                        <input ref={(a) => this._inputElement = a}
-                            placeholder="enter task">
-                        </input>
+                        <input
+                            ref={(a) => this._inputElement = a}
+                            placeholder="enter task"
+                        />
                         <button type="submit">add</button>
                     </form>
                 </div>
