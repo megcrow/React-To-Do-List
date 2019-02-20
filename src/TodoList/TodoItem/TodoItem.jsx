@@ -13,21 +13,9 @@ function TodoItem(props) {
         text
     } = item;
 
-    function _deleteItem() {
-        deleteItem(key);
-    }
-
-    function _editItem(e) {
-        const {
-            value
-        } = e.target;
-
-        editItem(key, value);
-    }
-
     return (
         <div className="list-item-container">
-            <form onBlur={_editItem}>
+            <form onBlur={(e) => editItem(e, key)}>
                 <textarea
                     className="list-item"
                     type="text"
@@ -36,7 +24,7 @@ function TodoItem(props) {
             </form>
             <button
                 className="delete-button"
-                onClick={_deleteItem}
+                onClick={(e) => deleteItem(key)}
             >
                 delete
             </button>

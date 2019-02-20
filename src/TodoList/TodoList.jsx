@@ -3,7 +3,7 @@ import React from 'react';
 import TodoItem from './TodoItem/TodoItem';
 import './TodoList.css';
 
-export default function TodoList ({ itemArray, addItem }) {
+export default function TodoList ({ itemArray, addItem, deleteItem, editItem }) {
         return (
             <div className="todoListMain" >
                 <div className="header">
@@ -20,8 +20,8 @@ export default function TodoList ({ itemArray, addItem }) {
                     <TodoItem
                         key={item.key}
                         item={item}
-                        // deleteItem={deleteItem(items.key)}
-                        // editItem={editItem(items.key, items.text)}
+                        deleteItem={deleteItem}
+                        editItem={editItem}
                     />
                     ))}
                 </ul>
