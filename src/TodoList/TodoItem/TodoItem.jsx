@@ -27,20 +27,20 @@ function TodoItem(props) {
 
     return (
         <div className="list-item-container">
-            <form onBlur={_editItem}> 
+            <form onBlur={_editItem}>
                 <textarea
-                    className="list-item"  
+                    className="list-item"
                     type="text"
                     placeholder={text}
                 />
             </form>
             <button
-                className="delete-button" 
+                className="delete-button"
                 onClick={_deleteItem}
             >
                 delete
             </button>
-        </div> 
+        </div>
     );
 };
 
