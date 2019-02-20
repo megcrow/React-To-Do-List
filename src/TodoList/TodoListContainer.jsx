@@ -1,11 +1,16 @@
-import { compose, withState, withHandlers } from 'recompose';
+import { compose, lifecycle, withState, withHandlers } from 'recompose';
 
 import TodoList from './TodoList';
 
 const isNullOrWhiteSpace = (str) => (!str || str.length === 0 || /^\s*$/.test(str));
 
+const saveStateToLocalStorage = (items) => {
+    localStorage.setItem('items', JSON.stringify(items));
+}
+
 const enhance = compose(
     withState('itemArray', 'setItemArray', []),
+
     withHandlers({
         addItem: ({ setItemArray, itemArray }) => {
             return (e) => {
@@ -23,13 +28,15 @@ const enhance = compose(
                 }
             }
         },
+
         deleteItem: ({ setItemArray, itemArray }) => {
             return(key) => {
                const filteredItems = itemArray.filter((item) => item.key !== key);
                return setItemArray(filteredItems);
             }
         },
-        editItem: ({setItemArray, itemArray}) => {
+
+        editItem: ({ setItemArray, itemArray }) => {
             return(e, key) => {
                     const editedItem = {
                         text: e.target.value,
@@ -48,8 +55,43 @@ const enhance = compose(
                     }, []);
                     return setItemArray(newItems);
             }
+        },
+
+        hydrateStateWithLocalStorage: ({ setItemArray, itemArray }) => {
+            return(e) =>{
+                 if (localStorage.hasOwnProperty('items')) {
+                // get the key's value from localStorage
+                let items = localStorage.getItem('items');
+                // parse the localStorage string and setState
+                try {
+                    items = JSON.parse(items);
+                    return setItemArray(items);
+                } catch (e) {
+                    // handle empty string
+                    return setItemArray(items);}
+                }
+            }
         }
-    })
+    }),
+
+    lifecycle({
+        componentDidMount() {
+            this.props.hydrateStateWithLocalStorage();
+            // add event listener to save state to localStorage
+            // when user leaves/refreshes the page
+            window.addEventListener(
+                'beforeunload',
+                saveStateToLocalStorage(this.props.itemArray)
+            );
+        },
+
+        componentDidUpdate() {
+            window.removeEventListener(
+                'beforeunload',
+                saveStateToLocalStorage(this.props.itemArray)
+            );
+        },
+    }),
 )
 
 export default enhance(TodoList);
