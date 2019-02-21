@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 
-import TodoListContainer from './TodoList/TodoListContainer';
-import RandomDogContainer from './RandomDog/RandomDogContainter';
+import TodoListContainer from './containers/TodoListContainer';
+import RandomDogContainer from './containers/RandomDogContainter';
 import './index.css';
 
 ReactDOM.render(

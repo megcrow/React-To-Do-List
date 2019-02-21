@@ -1,6 +1,6 @@
 import { compose, lifecycle, withState, withHandlers } from 'recompose';
 
-import TodoList from './TodoList';
+import TodoList from '../components/TodoList/TodoList';
 
 const isNullOrWhiteSpace = (str) => (!str || str.length === 0 || /^\s*$/.test(str));
 
