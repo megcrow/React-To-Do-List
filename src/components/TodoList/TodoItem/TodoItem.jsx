@@ -15,7 +15,7 @@ function TodoItem(props) {
 
     return (
         <div className="list-item-container">
-            <form onBlur={(e) => editItem(e, key)}>
+            <form className="todo-item-form" onBlur={(e) => editItem(e, key)}>
                 <textarea
                     className="list-item"
                     type="text"

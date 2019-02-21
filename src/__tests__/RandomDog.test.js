@@ -15,15 +15,15 @@ describe('RandomDog', () => {
         );
     });
 
-    test('RandomDog should match snapshot', () => {
+    test('RandomDog component should match snapshot', () => {
         expect('wrapper').toMatchSnapshot();
     });
 
     test('should say `Loading...` when loading is true', () => {
         wrapper.setProps({isLoadingDog: true})
         expect(
-            wrapper.contains(<p> Loading ...</p>)
-        ).toBe(true);
+            wrapper.find('.loading-text').text()
+        ).toBe('Loading...');
     });
 
     test('should show image when loading is false', () => {
@@ -31,5 +31,5 @@ describe('RandomDog', () => {
         expect(
             wrapper.contains(<img src={mockImage} alt="header" className="header-img"/>)
         ).toBe(true);
-    })
+    });
 })

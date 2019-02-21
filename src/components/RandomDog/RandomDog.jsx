@@ -7,7 +7,7 @@ export default function RandomDog ({ dogUrl, isLoadingDog }){
         <div>
         {
             isLoadingDog ? (
-                <p> Loading ...</p>
+                <p className="loading-text">Loading...</p>
             ) : (
                 <img src={dogUrl} alt="header" className="header-img" />
             )
