@@ -22,7 +22,7 @@ describe('TodoItem', () => {
         );
     });
     test('TodoItem component should match snapshot', () => {
-        expect('wrapper').toMatchSnapshot();
+        expect(wrapper).toMatchSnapshot();
     });
 
     test('TodoItem should have form component', () => {
